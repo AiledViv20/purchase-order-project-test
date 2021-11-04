@@ -17,6 +17,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { ContainerPreview, RowSkum, RowName } from './styled';
 import { colorHEX } from '../../helpers';
+import ModalCreate from '../ModalCreate';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -29,6 +30,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const Detail = ({ row, num, handleClickSnack, setError }) => {
     const [open, setOpen] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [numOrder, setNumOrder] = useState(false);
 
     const handleClickToPay = () => {
         setError({
@@ -36,6 +39,11 @@ const Detail = ({ row, num, handleClickSnack, setError }) => {
             message: "Se ha pagado correctamente"
         });
         handleClickSnack();
+    }
+
+    const handleClickAdd = (number) => {
+        setNumOrder(number);
+        setOpenModal(true);
     }
     
     return ( 
@@ -92,6 +100,13 @@ const Detail = ({ row, num, handleClickSnack, setError }) => {
                                 />
                     </Typography>
                 </TableCell>
+                <TableCell align="right">
+                    <Button style={{ backgroundColor: '#6C1853' }} 
+                        onClick={() => handleClickAdd(row.number)} variant="contained" 
+                        size="medium">
+                            Agregar
+                    </Button>
+                </TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -108,7 +123,7 @@ const Detail = ({ row, num, handleClickSnack, setError }) => {
                                         <StyledTableCell>Discount</StyledTableCell>
                                         <StyledTableCell>variantId</StyledTableCell>
                                         <StyledTableCell>vendor</StyledTableCell>
-                                        <StyledTableCell>Acción</StyledTableCell>
+                                        <StyledTableCell>action</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -133,6 +148,15 @@ const Detail = ({ row, num, handleClickSnack, setError }) => {
                     </Collapse>
                 </TableCell>
             </TableRow>
+            {openModal ? 
+                <ModalCreate 
+                    open={openModal} 
+                    setOpen={setOpenModal}
+                    handleClickSnack={handleClickSnack}
+                    setError={setError}
+                    numberOrder={numOrder}/>
+                : null
+            }
         </Fragment>
     );
 }
