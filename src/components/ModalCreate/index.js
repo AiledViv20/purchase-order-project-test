@@ -15,7 +15,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const ModalCreate = ({ open, setOpen, handleClickSnack, setError }) => {
+const ModalCreate = ({ open, setOpen, handleClickSnack, setError, numberOrder }) => {
     const { dispatch } = useContext(PurchaseOrderContext);
     const formik = useFormik({
         initialValues: {
@@ -29,7 +29,7 @@ const ModalCreate = ({ open, setOpen, handleClickSnack, setError }) => {
             discount: "",
             variantId: "",
             vendor: "",
-            number: ""
+            number: numberOrder,
         },
         validationSchema: Yup.object({
             sku: Yup.string().required('Este campo es requerido'),
@@ -42,7 +42,6 @@ const ModalCreate = ({ open, setOpen, handleClickSnack, setError }) => {
             discount: Yup.string().required('Este campo es requerido'),
             variantId: Yup.string().required('Este campo es requerido'),
             vendor: Yup.string().required('Este campo es requerido'),
-            number: Yup.number('El valor debe ser un número').required('Este campo es requerido'),
         }),
         onSubmit: (formData) => {
           sendData(formData);
@@ -240,28 +239,9 @@ const ModalCreate = ({ open, setOpen, handleClickSnack, setError }) => {
                             />
                         </ContainerInput>
                     </WrapperInput>
-                    <WrapperInput>
-                        <ContainerInput>
-                            <TextField
-                                fullWidth
-                                id="outlined-required"
-                                label="number"
-                                name="number"
-                                onChange={formik.handleChange}
-                                error={formik.errors.number && true}
-                                value={formik.values.number}
-                                onBlur={formik.handleBlur}
-                                helperText={
-                                    formik.touched.number && Boolean(formik.errors.number) && formik.errors.number
-                                }
-                            />
-                        </ContainerInput>
-                        <ContainerInput>
-                            <ContainerButton>
-                                <Button type="submit" style={{ width: '50%', marginBottom: '3rem' }} variant="contained">Agregar</Button>
-                            </ContainerButton>
-                        </ContainerInput>
-                    </WrapperInput>
+                    <ContainerButton>
+                        <Button type="submit" style={{ width: '50%', marginBottom: '3rem' }} variant="contained">Agregar</Button>
+                    </ContainerButton>
                 </form>
             </DialogContent>
         </Dialog>

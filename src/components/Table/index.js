@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,7 +10,6 @@ import Paper from '@mui/material/Paper';
 import Detail from '../Detail';
 import Button from '@mui/material/Button';
 import { Wrapper, Title, WrapperTitle, WrapperButton } from './styled';
-import ModalCreate from '../ModalCreate';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -23,11 +22,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   
 
 const TableGeneral = ({ orders, handleClickSnack, setError }) => {
-    const [open, setOpen] = useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
 
     return (
         <Fragment>
@@ -35,9 +29,6 @@ const TableGeneral = ({ orders, handleClickSnack, setError }) => {
                 <WrapperTitle>
                     <Title>Ordenes de compra</Title>
                 </WrapperTitle>
-                <WrapperButton>
-                    <Button style={{ backgroundColor: '#24B756' }} onClick={() => handleClickOpen()} variant="contained" size="medium">Agregar</Button>
-                </WrapperButton>
             </Wrapper>
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
@@ -51,6 +42,7 @@ const TableGeneral = ({ orders, handleClickSnack, setError }) => {
                                 <StyledTableCell align="right">Name</StyledTableCell>
                                 <StyledTableCell align="right">Quantity</StyledTableCell>
                                 <StyledTableCell align="right">Price</StyledTableCell>
+                                <StyledTableCell align="right">Action</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -63,14 +55,6 @@ const TableGeneral = ({ orders, handleClickSnack, setError }) => {
                     </Table>
                 </TableContainer>
             </Paper>
-            {open ? 
-                <ModalCreate 
-                    open={open} 
-                    setOpen={setOpen}
-                    handleClickSnack={handleClickSnack}
-                    setError={setError}/>
-                : null
-            }
         </Fragment>
     );
 }
